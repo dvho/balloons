@@ -89,16 +89,12 @@ const b50 = document.getElementById('balloon__50');
                 setTimeout(()=> {
                     balloonNumber.style.animation = ``; //Terminate balloon animation.
                     balloonNumber.style.zIndex = `-1`; //After the explosion recess the (now phantom) balloons because they seem occasionally to conflict with existing balloons.
-
                     pop.style.zIndex = `-1`; //After the explosion recess the (now phantom) explosions because they seem occasionally to conflict with existing balloons.
-                    //pop.style.boxShadow = ``; //Make the shadow (i.e. the explosion) nonexistent since it will otherwise occasionally reappear on mobile Safari.
                 }, balloonDiameter * .3);
             });
         })
     }
 })();
-
-pop.style.animation = ``; //Terminate explosion animation (precautionary).
 
 
 //BALLOON GENERATOR
