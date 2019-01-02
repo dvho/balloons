@@ -88,9 +88,10 @@ const b50 = document.getElementById('balloon__50');
                 pop.style.animation = `explosion${explosionSwitcher} ${balloonDiameter * .0003}s linear`; //Explode for a duration commensurate with balloon diameter.
                 setTimeout(()=> {
                     balloonNumber.style.animation = ``; //Terminate balloon animation.
-                    //pop.style.animation = ``; //Terminate explosion animation (precautionary).
                     balloonNumber.style.zIndex = `-1`; //After the explosion recess the (now phantom) balloons because they seem occasionally to conflict with existing balloons.
+                    pop.style.animation = ``; //Terminate explosion animation (precautionary).
                     pop.style.zIndex = `-1`; //After the explosion recess the (now phantom) explosions because they seem occasionally to conflict with existing balloons.
+                    pop.style.boxShadow = ``; //Make the shadow (i.e. the explosion) nonexistent since it will otherwise occasionally reappear on mobile Safari. 
                 }, balloonDiameter * .23);
             });
         })
