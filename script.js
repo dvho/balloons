@@ -66,7 +66,7 @@ const b50 = document.getElementById('balloon__50');
         x = e.clientX;
         y = e.clientY;
     });
-    document.addEventListener(`touchstart`, (e) => { //Looping through mousemove and touchstart to add event listeners to document to get coordinates is giving undefined values for x and y.
+    document.addEventListener(`touchend`, (e) => { //Looping through mousemove and touchstart to add event listeners to document to get coordinates is giving undefined values for x and y.
         x = e.clientX;
         y = e.clientY;
     });
@@ -77,6 +77,8 @@ const b50 = document.getElementById('balloon__50');
             balloonNumber.addEventListener(e, () => {
                 let balloonDiameter = parseInt(balloonNumber.style.width.split(`p`)[0]); //Get the balloon's diameter.
                 explosionSwitcher = (explosionSwitcher + 1) % 2; //Alternate between 0 and 1 to switch between two identical animations.
+                score += 1; //Update the score.
+                yourScore.textContent = score; //Display score.
                 pop.style.left = `${x - balloonDiameter/2}px`; //Position the explosion.
                 pop.style.top = `${y - balloonDiameter/2}px`; //Position the explosion.
                 pop.style.zIndex = balloonNumber.style.zIndex; //Set the zIndex of the explosion to that of the balloon.
@@ -85,8 +87,6 @@ const b50 = document.getElementById('balloon__50');
                 pop.style.boxShadow = `0 0 ${balloonNumber.style.width} ${balloonNumber.style.height} ${balloonNumber.style.backgroundColor}, inset 0 0 ${balloonNumber.style.width} ${balloonNumber.style.height} ${balloonNumber.style.backgroundColor}`; //Final explosion position looks like this, note that a) balloon width and height are the same so I didn't necessarily need to refeerence both here, either one or the other would have worked, and b) those values (that value) being used in place of both blur and spread radii is not a mistake, it just so happens that the value dynamically works perfectly for blur and spread.
                 pop.style.animation = `explosion${explosionSwitcher} ${balloonDiameter * .003}s linear`; //Explode for a duration commensurate with balloon diameter.
                 setTimeout(()=> {
-                    score += 1; //Update the score.
-                    yourScore.textContent = score; //Display score.
                     balloonNumber.style.animation = ``; //Terminate balloon animation.
                     balloonNumber.style.zIndex = `-1`; //After the explosion recess the (now phantom) balloons because they seem occasionally to conflict with existing balloons.
                     //pop.style.animation = ``; //Terminate explosion animation (precautionary).
