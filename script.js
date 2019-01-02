@@ -66,7 +66,7 @@ const b50 = document.getElementById('balloon__50');
         x = e.clientX;
         y = e.clientY;
     });
-    document.addEventListener(`touchend`, (e) => { //Looping through mousemove and touchmove to add event listeners to document to get coordinates is giving undefined values for x and y.
+    document.addEventListener(`touchstart`, (e) => { //Looping through mousemove and touchmove to add event listeners to document to get coordinates is giving undefined values for x and y.
         x = e.clientX;
         y = e.clientY;
     });
@@ -85,14 +85,14 @@ const b50 = document.getElementById('balloon__50');
                 pop.style.width = balloonNumber.style.width; //Set the dimentions of the explosion.
                 pop.style.height = balloonNumber.style.height; //Set the dimentions of the explosion.
                 pop.style.boxShadow = `0 0 ${balloonNumber.style.width} ${balloonNumber.style.height} ${balloonNumber.style.backgroundColor}, inset 0 0 ${balloonNumber.style.width} ${balloonNumber.style.height} ${balloonNumber.style.backgroundColor}`; //Final explosion position looks like this, note that a) balloon width and height are the same so I didn't necessarily need to refeerence both here, either one or the other would have worked, and b) those values (that value) being used in place of both blur and spread radii is not a mistake, it just so happens that the value dynamically works perfectly for blur and spread.
-                pop.style.animation = `explosion${explosionSwitcher} ${balloonDiameter * .003}s linear`; //Explode for a duration commensurate with balloon diameter.
+                pop.style.animation = `explosion${explosionSwitcher} ${balloonDiameter * .0003}s linear`; //Explode for a duration commensurate with balloon diameter.
                 setTimeout(()=> {
                     balloonNumber.style.animation = ``; //Terminate balloon animation.
                     balloonNumber.style.zIndex = `-1`; //After the explosion recess the (now phantom) balloons because they seem occasionally to conflict with existing balloons.
                     //pop.style.animation = ``; //Terminate explosion animation (precautionary).
                     pop.style.zIndex = `-1`; //After the explosion recess the (now phantom) explosions because they seem occasionally to conflict with existing balloons.
                     //pop.style.boxShadow = ``; //Make the shadow (i.e. the explosion) nonexistent since it will otherwise occasionally reappear on mobile Safari.
-                }, balloonDiameter * 3);
+                }, balloonDiameter * .3);
             });
         })
     }
