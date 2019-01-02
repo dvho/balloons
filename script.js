@@ -74,7 +74,6 @@ const b50 = document.getElementById('balloon__50');
         let balloonNumber = eval(`b${i}`);
         [`mousedown`, `touchstart`].forEach((e) => {
             balloonNumber.addEventListener(e, () => {
-                e.preventDefault();
                 balloonNumber.style.animation = ``; //Terminate balloon animation.
                 explosionSwitcher = (explosionSwitcher + 1) % 2; //Alternates betweeen 0 and 1 to switch between two identical animations.
                 score += 1; //Update score.
