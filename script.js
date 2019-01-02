@@ -74,26 +74,28 @@ const b50 = document.getElementById('balloon__50');
         let balloonNumber = eval(`b${i}`);
         [`mousedown`, `touchstart`].forEach((e) => {
             balloonNumber.addEventListener(e, () => {
+                let balloonDiameter = parseInt(balloonNumber.style.width.split(`p`)[0]);
                 balloonNumber.style.animation = ``; //Terminate balloon animation.
                 explosionSwitcher = (explosionSwitcher + 1) % 2; //Alternates betweeen 0 and 1 to switch between two identical animations.
                 score += 1; //Update score.
                 yourScore.textContent = score; //Display score.
-                pop.style.boxShadow = `0 0 ${balloonNumber.style.width} ${balloonNumber.style.height} ${balloonNumber.style.backgroundColor}, inset 0 0 ${balloonNumber.style.width} ${balloonNumber.style.height} ${balloonNumber.style.backgroundColor}`; //Note that a) balloon width and height are the same so I didn't necessarily need to refeerence both here, either one or the other would have worked, and b) that value being used in place of both blur and spread radii is not a mistake in intending to assign width or height values, it just so happens that the value works perfectly for blur and spread.
-                pop.style.left = `${x - parseInt(balloonNumber.style.width.split(`p`)[0])/2}px`;
-                pop.style.top = `${y - parseInt(balloonNumber.style.height.split(`p`)[0])/2}px`;
+                pop.style.boxShadow = `0 0 ${balloonNumber.style.width} ${balloonNumber.style.height} ${balloonNumber.style.backgroundColor}, inset 0 0 ${balloonNumber.style.width} ${balloonNumber.style.height} ${balloonNumber.style.backgroundColor}`; //Note that a) balloon width and height are the same so I didn't necessarily need to refeerence both here, either one or the other would have worked, and b) those values (that value) being used in place of both blur and spread radii is not a mistake, it just so happens that the value dynamically works perfectly for blur and spread.
+                pop.style.left = `${x - balloonDiameter/2}px`;
+                pop.style.top = `${y - balloonDiameter/2}px`;
                 pop.style.zIndex = balloonNumber.style.zIndex;
                 pop.style.width = balloonNumber.style.width;
                 pop.style.height = balloonNumber.style.height;
-                pop.style.animation = `explosion${explosionSwitcher} .05s linear`;
+                pop.style.animation = `explosion${explosionSwitcher} ${balloonDiameter * .00023}s linear`;
                 setTimeout(()=> {
-                    balloonNumber.style.zIndex = `0`; //After the 50ms explosion recess the (now phantom) balloons because they seem occasionally to conflict with existing balloons.
-                }, 50);
+                    balloonNumber.style.zIndex = `0`; //After the explosion recess the (now phantom) balloons because they seem occasionally to conflict with existing balloons.
+                }, balloonDiameter * .23);
             });
         })
     }
 })();
 
 
+//BALLOON GENERATOR
 balloons = (ascent, color, size, speed, zIndex) => {
 
     let balloonNumber = eval(`b${count}`); //Use eval to convert the template string to the desired element as delineated in the const definitions.
@@ -110,7 +112,7 @@ balloons = (ascent, color, size, speed, zIndex) => {
 }
 
 
-(generator = () => {
+(control = () => {
 
     let timer = Math.ceil(Math.random() * 1000);
     let ascent = Math.ceil(Math.random() * 41); //Balloon will randomly launch from 1 of 40 different positions.
@@ -127,6 +129,6 @@ balloons = (ascent, color, size, speed, zIndex) => {
     }
 
     balloons(ascent, color, size, speed, zIndex);
-    setTimeout(generator, timer);
+    setTimeout(control, timer);
 
 })();
