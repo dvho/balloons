@@ -2,6 +2,10 @@ body {
     background-color: #efefff;
 }
 
+div {
+    -webkit-tap-highlight-color: rgba(0,0,0,0); /* Make the highlight color transparent, in case nothing else works */
+}
+
 .balloon {
     position: fixed;
     margin-left: 50%;
@@ -213,7 +217,6 @@ body {
        -moz-user-select: none; /* Firefox */
         -ms-user-select: none; /* Internet Explorer/Edge */
             user-select: none; /* Non-prefixed version, currently supported by Chrome and Opera */
-    -webkit-tap-highlight-color: rgba(0,0,0,0); /* Make the highlight color transparent, in case nothing else works */
 }
 
 .disable-doubletap-to-zoom {
