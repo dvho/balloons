@@ -60,7 +60,6 @@ const b50 = document.getElementById('balloon__50');
 
 //FIRE UP EVENT LISTENERS ON CLICK AND TOUCHSTART DYNAMICALLY FOR ALL 50 OF THE BALLOONS, AND ON MOUSEMOVE FOR X AND Y COORDINATES
 (() => {
-    window.addEventListener('selectstart', function(e){ e.preventDefault(); });
 
     let explosionSwitcher = 1;
     document.addEventListener(`mousemove`, (e) => { //Looping through mousemove and touchmove to add event listeners to document to get coordinates is giving undefined values for x and y.
