@@ -88,7 +88,7 @@ const b50 = document.getElementById('balloon__50');
                 pop.style.height = balloonNumber.style.height;
                 pop.style.animation = `explosion${explosionSwitcher} ${balloonDiameter * .00023}s linear`;
                 setTimeout(()=> {
-                    balloonNumber.style.zIndex = `0`; //After the explosion recess the (now phantom) balloons because they seem occasionally to conflict with existing balloons.
+                    balloonNumber.style.zIndex = `-1`; //After the explosion recess the (now phantom) balloons because they seem occasionally to conflict with existing balloons.
                 }, balloonDiameter * .23);
             });
         })
