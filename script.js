@@ -1,5 +1,6 @@
 let count = 0;
 let score = 0;
+const yourScore = document.getElementById('scoreboard');
 const pop = document.getElementById('burst');
 const b1 = document.getElementById('balloon__01');
 const b2 = document.getElementById('balloon__02');
@@ -77,7 +78,8 @@ const b50 = document.getElementById('balloon__50');
                 balloonNumber.style.animation = ``; //Terminate balloon animation.
 
                 explosionSwitcher = (explosionSwitcher + 1) % 2; //Alternates betweeen 0 and 1 to switch between two identical animations.
-                score += 1; //Update score
+                score += 1; //Update score.
+                yourScore.textContent = score;
 
                 //pop.style.backgroundColor = balloonNumber.style.backgroundColor;
                 pop.style.boxShadow = `0 0 ${balloonNumber.style.width} ${balloonNumber.style.height} ${balloonNumber.style.backgroundColor}, inset 0 0 ${balloonNumber.style.width} ${balloonNumber.style.height} ${balloonNumber.style.backgroundColor}`; //Note that a) balloon width and height are the same so I didn't necessarily need to refeerence both here, either one or the other would have worked, and b) that value being used in place of both blur and spread radii is not a mistake in intending to assign width or height values, it just so happens that the value works perfectly for blur and spread.
@@ -129,7 +131,6 @@ balloons = (ascent, color, size, speed, zIndex) => {
     }
 
     balloons(ascent, color, size, speed, zIndex);
-
     setTimeout(generator, timer);
 
 })();

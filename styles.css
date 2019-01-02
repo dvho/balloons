@@ -184,14 +184,34 @@ body {
 @keyframes explosion0 {
     0% {transform: scale(.001);
         opacity: 0;}
-    99% {transform: scale(.8);
+    99% {transform: scale(.7);
          opacity: 1;}
     100% {opacity: 0;}
 }
 @keyframes explosion1 {
     0% {transform: scale(.001);
         opacity: 0;}
-    99% {transform: scale(.8);
+    99% {transform: scale(.7);
          opacity: 1;}
     100% {opacity: 0;}
+}
+
+#scoreboard {
+    margin-top: 10%;
+    overflow: hidden;
+    text-align: center;
+    font-size: 16em;
+    color: #fff;
+    font-family: inherit;
+    text-shadow: 0 0 32px rgba(150, 150, 150, 0.4);
+}
+
+.noselect {
+  -webkit-touch-callout: none; /* iOS Safari */
+    -webkit-user-select: none; /* Safari */
+     -khtml-user-select: none; /* Konqueror HTML */
+       -moz-user-select: none; /* Firefox */
+        -ms-user-select: none; /* Internet Explorer/Edge */
+            user-select: none; /* Non-prefixed version, currently
+                                  supported by Chrome and Opera */
 }
