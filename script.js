@@ -75,7 +75,7 @@ const b50 = document.getElementById('balloon__50');
 
     for (i = 1; i < 51; i++) {
         let balloonNumber = eval(`b${i}`);
-        [`touchend`, `mousedown`].forEach((e) => {
+        [`touchstart`, `mousedown`].forEach((e) => {
             balloonNumber.addEventListener(e, () => {
                 let balloonDiameter = parseInt(balloonNumber.style.width.split(`p`)[0]); //Get the balloon's diameter.
                 explosionSwitcher = (explosionSwitcher + 1) % 2; //Alternate between 0 and 1 to switch between two identical animations.
