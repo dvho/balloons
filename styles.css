@@ -2,7 +2,7 @@ body {
     background-color: #efefff;
 }
 
-a {
+* {
     -webkit-tap-highlight-color: transparent;
 }
 
