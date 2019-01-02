@@ -66,7 +66,7 @@ const b50 = document.getElementById('balloon__50');
         x = e.clientX;
         y = e.clientY;
     });
-    document.addEventListener(`touchstart`, (e) => { //Looping through mousemove and touchstart to add event listeners to document to get coordinates is giving undefined values for x and y.
+    document.addEventListener(`touchend`, (e) => { //Looping through mousemove and touchstart to add event listeners to document to get coordinates is giving undefined values for x and y.
         x = e.clientX;
         y = e.clientY;
     });
