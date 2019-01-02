@@ -66,14 +66,14 @@ const b50 = document.getElementById('balloon__50');
         x = e.clientX;
         y = e.clientY;
     });
-    document.addEventListener(`touchstart`, (e) => { //Looping through mousemove and touchmove to add event listeners to document to get coordinates is giving undefined values for x and y.
+    document.addEventListener(`touchend`, (e) => { //Looping through mousemove and touchmove to add event listeners to document to get coordinates is giving undefined values for x and y.
         x = e.clientX;
         y = e.clientY;
     });
 
     for (i = 1; i < 51; i++) {
         let balloonNumber = eval(`b${i}`);
-        [`mousedown`, `touchend`].forEach((e) => {
+        [`touchend`, `mousedown`].forEach((e) => {
             balloonNumber.addEventListener(e, () => {
                 let balloonDiameter = parseInt(balloonNumber.style.width.split(`p`)[0]); //Get the balloon's diameter.
                 explosionSwitcher = (explosionSwitcher + 1) % 2; //Alternate between 0 and 1 to switch between two identical animations.
