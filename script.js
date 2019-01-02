@@ -74,14 +74,11 @@ const b50 = document.getElementById('balloon__50');
         let balloonNumber = eval(`b${i}`);
         [`mousedown`, `touchstart`].forEach((e) => {
             balloonNumber.addEventListener(e, () => {
-
+                e.preventDefault();
                 balloonNumber.style.animation = ``; //Terminate balloon animation.
-
                 explosionSwitcher = (explosionSwitcher + 1) % 2; //Alternates betweeen 0 and 1 to switch between two identical animations.
                 score += 1; //Update score.
-                yourScore.textContent = score;
-
-                //pop.style.backgroundColor = balloonNumber.style.backgroundColor;
+                yourScore.textContent = score; //Display score.
                 pop.style.boxShadow = `0 0 ${balloonNumber.style.width} ${balloonNumber.style.height} ${balloonNumber.style.backgroundColor}, inset 0 0 ${balloonNumber.style.width} ${balloonNumber.style.height} ${balloonNumber.style.backgroundColor}`; //Note that a) balloon width and height are the same so I didn't necessarily need to refeerence both here, either one or the other would have worked, and b) that value being used in place of both blur and spread radii is not a mistake in intending to assign width or height values, it just so happens that the value works perfectly for blur and spread.
                 pop.style.left = `${x - parseInt(balloonNumber.style.width.split(`p`)[0])/2}px`;
                 pop.style.top = `${y - parseInt(balloonNumber.style.height.split(`p`)[0])/2}px`;
