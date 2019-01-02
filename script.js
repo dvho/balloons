@@ -62,11 +62,11 @@ const b50 = document.getElementById('balloon__50');
 (() => {
 
     let explosionSwitcher = 1;
-    document.addEventListener(`mousemove`, (e) => { //Looping through mousemove and touchmove to add event listeners to document to get coordinates is giving undefined values for x and y.
+    document.addEventListener(`mousemove`, (e) => { //Looping through mousemove and touchstart to add event listeners to document to get coordinates is giving undefined values for x and y.
         x = e.clientX;
         y = e.clientY;
     });
-    document.addEventListener(`touchstart`, (e) => { //Looping through mousemove and touchmove to add event listeners to document to get coordinates is giving undefined values for x and y.
+    document.addEventListener(`touchstart`, (e) => { //Looping through mousemove and touchstart to add event listeners to document to get coordinates is giving undefined values for x and y.
         x = e.clientX;
         y = e.clientY;
     });
@@ -89,7 +89,7 @@ const b50 = document.getElementById('balloon__50');
                 setTimeout(()=> {
                     balloonNumber.style.animation = ``; //Terminate balloon animation.
                     balloonNumber.style.zIndex = `-1`; //After the explosion recess the (now phantom) balloons because they seem occasionally to conflict with existing balloons.
-                    //pop.style.animation = ``; //Terminate explosion animation (precautionary).
+
                     pop.style.zIndex = `-1`; //After the explosion recess the (now phantom) explosions because they seem occasionally to conflict with existing balloons.
                     //pop.style.boxShadow = ``; //Make the shadow (i.e. the explosion) nonexistent since it will otherwise occasionally reappear on mobile Safari.
                 }, balloonDiameter * .3);
@@ -97,6 +97,8 @@ const b50 = document.getElementById('balloon__50');
         })
     }
 })();
+
+pop.style.animation = ``; //Terminate explosion animation (precautionary).
 
 
 //BALLOON GENERATOR
