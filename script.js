@@ -1,5 +1,7 @@
 let count = 0;
 let score = 0;
+let life = 3;
+let lifeString = `_________<br>🎖🎖🎖<br>`;
 const yourScore = document.getElementById('scoreboard');
 const pop = document.getElementById('burst');
 const b1 = document.getElementById('balloon__01');
@@ -74,12 +76,34 @@ const b50 = document.getElementById('balloon__50');
     });
 
     for (i = 1; i < 51; i++) {
+
         let balloonNumber = eval(`b${i}`);
+
+        balloonNumber.addEventListener(`animationend`, () => { //If the animationend event fires (i.e. if the balloon escapes without popping) you lose a life.
+            life -= 1;
+            if (life === 3) {
+                lifeString = `_________<br>🎖🎖🎖<br>`;
+                yourScore.innerHTML = `${lifeString}${score}`; //Display score.
+            }
+            if (life === 2) {
+                lifeString = `______<br>🎖🎖<br>`;
+                yourScore.innerHTML = `${lifeString}${score}`; //Display score.
+            }
+            if (life === 1) {
+                lifeString = `___<br>🎖<br>`;
+                yourScore.innerHTML = `${lifeString}${score}`; //Display score.
+            }
+            if (life === 0) {
+                lifeString = `Game Over`;
+                yourScore.innerHTML = `${lifeString}${score}`; //Display score.
+            }
+        });
+
         balloonNumber.addEventListener(`click`, () => {
             let balloonDiameter = parseInt(balloonNumber.style.width.split(`p`)[0]); //Get the balloon's diameter.
             explosionSwitcher = (explosionSwitcher + 1) % 2; //Alternate between 0 and 1 to switch between two identical animations.
             score += 1; //Update the score.
-            yourScore.textContent = score; //Display score.
+            yourScore.innerHTML = `${lifeString}${score}`; //Display score.
             pop.style.left = `${x - balloonDiameter/2}px`; //Position the explosion.
             pop.style.top = `${y - balloonDiameter/2}px`; //Position the explosion.
             pop.style.zIndex = balloonNumber.style.zIndex; //Set the zIndex of the explosion to that of the balloon.
