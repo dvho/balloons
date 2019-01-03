@@ -1,7 +1,7 @@
 let count = 0;
 let score = 0;
 let life = 3;
-let lifeString = `_________<br>🎖🎖🎖<br>`;
+let lifeString = `_________<br>🍉🍉🍉<br>`;
 const yourScore = document.getElementById('scoreboard');
 const pop = document.getElementById('burst');
 const b1 = document.getElementById('balloon__01');
@@ -57,53 +57,53 @@ const b50 = document.getElementById('balloon__50');
 
 
 
+//UPDATE THE DISPLAY OF SCORE AND LIFE VALUE
+updateScoreAndLife = () => {
+    if (life === 3) {
+        lifeString = `_________<br>🍉🍉🍉<br>`;
+        yourScore.innerHTML = `${lifeString}${score}`; //Display score.
+    }
+    if (life === 2) {
+        lifeString = `______<br>🍉🍉<br>`;
+        yourScore.innerHTML = `${lifeString}${score}`; //Display score.
+    }
+    if (life === 1) {
+        lifeString = `___<br>🍉<br>`;
+        yourScore.innerHTML = `${lifeString}${score}`; //Display score.
+    }
+    if (life === 0) {
+        lifeString = `Game Over<br>Score: `;
+        yourScore.innerHTML = `${lifeString}${score}`; //Display score.
+    }
+}
+
 
 
 
 //FIRE UP EVENT LISTENERS ON CLICK AND TOUCHSTART DYNAMICALLY FOR ALL 50 OF THE BALLOONS, AND ON MOUSEMOVE FOR X AND Y COORDINATES
 (() => {
-
     let explosionSwitcher = 1;
-
-    document.addEventListener(`click`, (e) => { //Looping through mousemove and touchstart to add event listeners to document to get coordinates is giving undefined values for x and y.
+    document.addEventListener(`click`, (e) => { //Looping through mousemove and click to add event listeners to document to get coordinates is giving undefined values for x and y, so have to add them individually.
         x = e.clientX;
         y = e.clientY;
     });
-
-    document.addEventListener(`mousemove`, (e) => { //Looping through mousemove and touchstart to add event listeners to document to get coordinates is giving undefined values for x and y.
+    document.addEventListener(`mousemove`, (e) => { //Looping through mousemove and click to add event listeners to document to get coordinates is giving undefined values for x and y, so have to add them individually.
         x = e.clientX;
         y = e.clientY;
     });
-
-    for (i = 1; i < 51; i++) {
-
+    for (i = 1; i < 51; i++) { //Add event listeners to all 50 balloons for animationend.
         let balloonNumber = eval(`b${i}`);
-
         balloonNumber.addEventListener(`animationend`, () => { //If the animationend event fires (i.e. if the balloon escapes without popping) you lose a life.
             life -= 1;
-            if (life === 3) {
-                lifeString = `_________<br>🎖🎖🎖<br>`;
-                yourScore.innerHTML = `${lifeString}${score}`; //Display score.
-            }
-            if (life === 2) {
-                lifeString = `______<br>🎖🎖<br>`;
-                yourScore.innerHTML = `${lifeString}${score}`; //Display score.
-            }
-            if (life === 1) {
-                lifeString = `___<br>🎖<br>`;
-                yourScore.innerHTML = `${lifeString}${score}`; //Display score.
-            }
-            if (life === 0) {
-                lifeString = `Game Over`;
-                yourScore.innerHTML = `${lifeString}${score}`; //Display score.
-            }
+            updateScoreAndLife();
         });
-
-        balloonNumber.addEventListener(`click`, () => {
+        balloonNumber.addEventListener(`click`, () => { //Add event listeners to all 50 balloons for click.
             let balloonDiameter = parseInt(balloonNumber.style.width.split(`p`)[0]); //Get the balloon's diameter.
             explosionSwitcher = (explosionSwitcher + 1) % 2; //Alternate between 0 and 1 to switch between two identical animations.
-            score += 1; //Update the score.
-            yourScore.innerHTML = `${lifeString}${score}`; //Display score.
+            if (life !==0) {
+                score += 1; //Increase the score.
+            }
+            updateScoreAndLife();
             pop.style.left = `${x - balloonDiameter/2}px`; //Position the explosion.
             pop.style.top = `${y - balloonDiameter/2}px`; //Position the explosion.
             pop.style.zIndex = balloonNumber.style.zIndex; //Set the zIndex of the explosion to that of the balloon.
@@ -140,14 +140,15 @@ balloons = (ascent, color, size, speed, zIndex) => {
 }
 
 
+//AMONG THE PARAMETERS THAT DICTATE EACH BALLON: ASCENT, COLOR, SIZE, SPEED, ZINDEX, AND INTERIM (TIMER) THERE ARE 1.51 x 10^44 POSSIBILITIES. THAT'S
 (control = () => {
 
-    let timer = Math.ceil(Math.random() * 1000);
-    let ascent = Math.ceil(Math.random() * 41); //Balloon will randomly launch from 1 of 40 different positions.
-    let color = `rgb(${Math.ceil(Math.random() * 255)}, ${Math.ceil(Math.random() * 255)}, ${Math.ceil(Math.random() * 255)})`
-    let size = (Math.ceil(Math.random() * 150)) + 50;
-    let speed = (Math.random() * 6) + 7;
-    let zIndex = Math.ceil(Math.random() * 999);
+    let timer = Math.random() * 1000; //Balloon generator will be called and sent new parameters at intervals ranging from 0s inclusive to 1s not inclusive, at 1^-17 granularity (10,000,000,000,000,000 possibilities).
+    let ascent = Math.ceil(Math.random() * 41); //Balloons will randomly launch from any of 41 different positions.
+    let color = `rgb(${Math.ceil(Math.random() * 255)}, ${Math.ceil(Math.random() * 255)}, ${Math.ceil(Math.random() * 255)})` //Balloons will be any of 16,777,216 different colors.
+    let size = (Math.ceil(Math.random() * 150)) + 50; //Balloons will be between 51 inclusive and 200 inclusive pixels (indivisible) in diameter (150 possibilities).
+    let speed = (Math.random() * 6) + 7; //Balloon trajectory will take between 7 inculsive and 13 not inclusive seconds at 1^-16 granularity (6,000,000,000,000,000 possibilities).
+    let zIndex = Math.ceil(Math.random() * 999); //Balloon zIndex will be between 1 inclusive and 999 inclusive (1000 possibilities).
 
     if (count <= 50) { //Advance count by 1...
         count += 1;
