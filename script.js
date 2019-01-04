@@ -103,7 +103,7 @@ resetBalloons = () => {
     });
 
     theSky.addEventListener(`click`, (e) => {
-        //e.preventDefault();
+        e.preventDefault();
         if ((score > 6) && (lifeString !== `Game Over<br>Score: `)) {
             thunderSwitcher = (thunderSwitcher + 1) % 2; //Alternate between 0 and 1 to switch between two identical animations.
             theSky.style.animation = `thunder${thunderSwitcher} .3s ease`;
