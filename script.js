@@ -192,7 +192,7 @@ balloonGenerator = (ascent, color, size, speed, zIndex) => {
     if (balloonCount > 50) { //...but reset after it hits 50.
         balloonCount = 1;
     }
-console.log(globalCount)
+
     balloonGenerator(ascent, color, size, speed, zIndex);
     setTimeout(control, timer);
 
