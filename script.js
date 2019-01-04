@@ -102,7 +102,8 @@ resetBalloons = () => {
         y = e.clientY;
     });
 
-    theSky.addEventListener(`click`, () => {
+    theSky.addEventListener(`click`, (e) => {
+        e.preventDefault();
         if ((score > 6) && (lifeString !== `Game Over<br>Score: `)) {
             thunderSwitcher = (thunderSwitcher + 1) % 2; //Alternate between 0 and 1 to switch between two identical animations.
             theSky.style.animation = `thunder${thunderSwitcher} .3s ease`;
@@ -110,7 +111,7 @@ resetBalloons = () => {
             updateScoreAndLife();
         }
     });
-    
+
     for (i = 1; i < 51; i++) {
         let balloonNumber = eval(`b${i}`);
         balloonNumber.addEventListener(`animationend`, () => {  //Add event listeners to all 50 balloons for animationend.
