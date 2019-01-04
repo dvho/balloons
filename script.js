@@ -126,7 +126,8 @@ resetBalloons = () => {
             globalCount += 1; //Everytime you pop a balloon the globalCount is updated, which is subracted from the timer coefficient, which is initialized at 0.
             let balloonDiameter = parseInt(balloonNumber.style.width.split(`p`)[0]); //Get the balloon's diameter.
             explosionSwitcher = (explosionSwitcher + 1) % 2; //Alternate between 0 and 1 to switch between two identical animations.
-            if (lifeString === `Game Over<br>Score: `) { //If game just ended, the next balloon pop should reset balloonCount, score, life, and lifeString, thereby restarting the game.
+            if (lifeString === `Game Over<br>Score: `) { //If game just ended, the next balloon pop should reset globalCount, balloonCount, score, life, and lifeString, thereby restarting the game.
+                globalCount = -1;
                 balloonCount = 0;
                 score = 0;
                 life = 3;
@@ -191,7 +192,7 @@ balloonGenerator = (ascent, color, size, speed, zIndex) => {
     if (balloonCount > 50) { //...but reset after it hits 50.
         balloonCount = 1;
     }
-
+console.log(globalCount)
     balloonGenerator(ascent, color, size, speed, zIndex);
     setTimeout(control, timer);
 
