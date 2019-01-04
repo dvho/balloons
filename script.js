@@ -1,6 +1,7 @@
-let balloonCount = 0;
-let score = 0;
-let life = 3;
+let balloonCount = 0; //balloonCount is initialized at 0.
+let globalCount = -1; //globalCount is initialized at -1, on first balloon pop it updates to 0.
+let score = 0; //score is initialized at 0.
+let life = 3; //life is initialized at 0.
 let lifeString = `_________<br>🍉🍉🍉<br>`;
 const theSky = document.getElementById('sky');
 const yourScore = document.getElementById('scoreboard');
@@ -122,6 +123,7 @@ resetBalloons = () => {
         });
         balloonNumber.addEventListener(`click`, (e) => { //Add event listeners to all 50 balloons for click.
             e.stopPropagation();
+            globalCount += 1; //Everytime you pop a balloon the globalCount is updated, which is subracted from the timer coefficient, which is initialized at 0.
             let balloonDiameter = parseInt(balloonNumber.style.width.split(`p`)[0]); //Get the balloon's diameter.
             explosionSwitcher = (explosionSwitcher + 1) % 2; //Alternate between 0 and 1 to switch between two identical animations.
             if (lifeString === `Game Over<br>Score: `) { //If game just ended, the next balloon pop should reset balloonCount, score, life, and lifeString, thereby restarting the game.
@@ -157,7 +159,7 @@ resetBalloons = () => {
 
 
 //BALLOON GENERATOR
-balloons = (ascent, color, size, speed, zIndex) => {
+balloonGenerator = (ascent, color, size, speed, zIndex) => {
 
     let balloonNumber = eval(`b${balloonCount}`); //Use eval to convert the template string to the desired element as delineated in the const definitions.
 
@@ -176,7 +178,7 @@ balloons = (ascent, color, size, speed, zIndex) => {
 //AMONG THE PARAMETERS THAT DICTATE EACH BALLON: ASCENT, COLOR, SIZE, SPEED, ZINDEX, AND INTERIM (TIMER) THERE ARE 1.51 x 10^44 POSSIBILITIES
 (control = () => {
 
-    let timer = Math.random() * 1000; //Balloon generator will be called and sent new parameters at intervals ranging from 0s inclusive to 1s not inclusive, at 1^-17 granularity (10,000,000,000,000,000 possibilities).
+    let timer = Math.random() * (1000 - globalCount); //Control will self invoke and send new parameters to balloonGenerator at intervals ranging from 0s inclusive to 1s (the timer coefficient) not inclusive, at 1^-17 granularity (10,000,000,000,000,000 possibilities), and narrow average rate of self invocation with each successful balloon pop by subracting 1ms from timer coefficient.
     let ascent = Math.ceil(Math.random() * 41); //Balloons will randomly launch from any of 41 different positions.
     let color = `rgb(${Math.ceil(Math.random() * 255)}, ${Math.ceil(Math.random() * 255)}, ${Math.ceil(Math.random() * 255)})` //Balloons will be any of 16,777,216 different colors.
     let size = (Math.ceil(Math.random() * 150)) + 50; //Balloons will be between 51 inclusive and 200 inclusive pixels (indivisible) in diameter (150 possibilities).
@@ -190,7 +192,7 @@ balloons = (ascent, color, size, speed, zIndex) => {
         balloonCount = 1;
     }
 
-    balloons(ascent, color, size, speed, zIndex);
+    balloonGenerator(ascent, color, size, speed, zIndex);
     setTimeout(control, timer);
 
 })();
