@@ -92,6 +92,7 @@ resetBalloons = () => {
 (() => {
 
     let explosionSwitcher = 1;
+    let thunderSwitcher = 1;
     document.addEventListener(`click`, (e) => { //Looping through mousemove and click to add event listeners to document to get coordinates is giving undefined values for x and y, so have to add them individually.
         x = e.clientX;
         y = e.clientY;
@@ -100,9 +101,16 @@ resetBalloons = () => {
         x = e.clientX;
         y = e.clientY;
     });
+
     theSky.addEventListener(`click`, () => {
-        console.log('test');
+        if ((score > 6) && (lifeString !== `Game Over<br>Score: `)) {
+            thunderSwitcher = (thunderSwitcher + 1) % 2; //Alternate between 0 and 1 to switch between two identical animations.
+            theSky.style.animation = `thunder${thunderSwitcher} .3s ease`;
+            score -= 5;
+            updateScoreAndLife();
+        }
     });
+    
     for (i = 1; i < 51; i++) {
         let balloonNumber = eval(`b${i}`);
         balloonNumber.addEventListener(`animationend`, () => {  //Add event listeners to all 50 balloons for animationend.
