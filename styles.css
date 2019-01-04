@@ -1,5 +1,10 @@
-body {
+#sky {
+    position: fixed;
+    height: 100%;
+    width: 100%;
     background-color: #efefff;
+    overflow: hidden;
+    z-index: 0;
 }
 
 .balloon {

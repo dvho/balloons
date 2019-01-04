@@ -1,7 +1,8 @@
-let count = 0;
+let balloonCount = 0;
 let score = 0;
 let life = 3;
 let lifeString = `_________<br>🍉🍉🍉<br>`;
+const theSky = document.getElementById('sky');
 const yourScore = document.getElementById('scoreboard');
 const pop = document.getElementById('burst');
 const b1 = document.getElementById('balloon__01');
@@ -78,10 +79,18 @@ updateScoreAndLife = () => {
 }
 
 
+//START THE GAME ON THE FIRST POP BY RESETTING ALL BALLOON ANIMATIONS AND RECESSING THEIR ZINDEXES
+resetBalloons = () => {
+    for (i = 1; i < 51; i++) {
+        let balloonNumber = eval(`b${i}`);
+        balloonNumber.style.animation = ``; //Terminate balloon animation.
+        balloonNumber.style.zIndex = `-1`; //Recess the (now phantom) balloons because they seem occasionally to conflict with existing balloons.
+    };
+}
 
-
-//FIRE UP EVENT LISTENERS ON CLICK AND TOUCHSTART DYNAMICALLY FOR ALL 50 OF THE BALLOONS, AND ON MOUSEMOVE FOR X AND Y COORDINATES
+//FIRE UP EVENT LISTENERS ON CLICK AND MOUSEMOVE TO CALLBACK COORDINATES, ON CLICK DYNAMICALLY FOR ALL 50 OF THE BALLOONS, AND ON THE SKY
 (() => {
+
     let explosionSwitcher = 1;
     document.addEventListener(`click`, (e) => { //Looping through mousemove and click to add event listeners to document to get coordinates is giving undefined values for x and y, so have to add them individually.
         x = e.clientX;
@@ -91,17 +100,32 @@ updateScoreAndLife = () => {
         x = e.clientX;
         y = e.clientY;
     });
-    for (i = 1; i < 51; i++) { //Add event listeners to all 50 balloons for animationend.
+    theSky.addEventListener(`click`, () => {
+        console.log('test');
+    });
+    for (i = 1; i < 51; i++) {
         let balloonNumber = eval(`b${i}`);
-        balloonNumber.addEventListener(`animationend`, () => { //If the animationend event fires (i.e. if the balloon escapes without popping) you lose a life.
-            life -= 1;
-            updateScoreAndLife();
+        balloonNumber.addEventListener(`animationend`, () => {  //Add event listeners to all 50 balloons for animationend.
+            if (score !== 0) { //If the animationend event fires (i.e. if the balloon escapes without popping) you lose a life.
+                life -= 1;
+                updateScoreAndLife();
+            }
         });
-        balloonNumber.addEventListener(`click`, () => { //Add event listeners to all 50 balloons for click.
+        balloonNumber.addEventListener(`click`, (e) => { //Add event listeners to all 50 balloons for click.
+            e.stopPropagation();
             let balloonDiameter = parseInt(balloonNumber.style.width.split(`p`)[0]); //Get the balloon's diameter.
             explosionSwitcher = (explosionSwitcher + 1) % 2; //Alternate between 0 and 1 to switch between two identical animations.
-            if (life !==0) {
+            if (lifeString === `Game Over<br>Score: `) { //If game just ended, the next balloon pop should reset balloonCount, score, life, and lifeString, thereby restarting the game.
+                balloonCount = 0;
+                score = 0;
+                life = 3;
+                lifeString = `_________<br>🍉🍉🍉<br>`;
+            }
+            if (life !== 0) {
                 score += 1; //Increase the score.
+            }
+            if (score === 1) {
+                resetBalloons();
             }
             updateScoreAndLife();
             pop.style.left = `${x - balloonDiameter/2}px`; //Position the explosion.
@@ -126,7 +150,7 @@ updateScoreAndLife = () => {
 //BALLOON GENERATOR
 balloons = (ascent, color, size, speed, zIndex) => {
 
-    let balloonNumber = eval(`b${count}`); //Use eval to convert the template string to the desired element as delineated in the const definitions.
+    let balloonNumber = eval(`b${balloonCount}`); //Use eval to convert the template string to the desired element as delineated in the const definitions.
 
     balloonNumber.style.background = `radial-gradient(circle at ${size/1.4}px ${size}px, #efefff, ${color})`;
     balloonNumber.style.backgroundColor = `${color}`;
@@ -140,7 +164,7 @@ balloons = (ascent, color, size, speed, zIndex) => {
 }
 
 
-//AMONG THE PARAMETERS THAT DICTATE EACH BALLON: ASCENT, COLOR, SIZE, SPEED, ZINDEX, AND INTERIM (TIMER) THERE ARE 1.51 x 10^44 POSSIBILITIES. THAT'S
+//AMONG THE PARAMETERS THAT DICTATE EACH BALLON: ASCENT, COLOR, SIZE, SPEED, ZINDEX, AND INTERIM (TIMER) THERE ARE 1.51 x 10^44 POSSIBILITIES
 (control = () => {
 
     let timer = Math.random() * 1000; //Balloon generator will be called and sent new parameters at intervals ranging from 0s inclusive to 1s not inclusive, at 1^-17 granularity (10,000,000,000,000,000 possibilities).
@@ -150,11 +174,11 @@ balloons = (ascent, color, size, speed, zIndex) => {
     let speed = (Math.random() * 6) + 7; //Balloon trajectory will take between 7 inculsive and 13 not inclusive seconds at 1^-16 granularity (6,000,000,000,000,000 possibilities).
     let zIndex = Math.ceil(Math.random() * 999); //Balloon zIndex will be between 1 inclusive and 999 inclusive (1000 possibilities).
 
-    if (count <= 50) { //Advance count by 1...
-        count += 1;
+    if (balloonCount <= 50) { //Advance balloonCount by 1...
+        balloonCount += 1;
     }
-    if (count > 50) { //...but reset after it hits 50.
-        count = 1;
+    if (balloonCount > 50) { //...but reset after it hits 50.
+        balloonCount = 1;
     }
 
     balloons(ascent, color, size, speed, zIndex);
