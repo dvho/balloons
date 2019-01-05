@@ -137,7 +137,11 @@ resetBalloons = () => {
                 life += 1;
             }
             if (balloonNumber === b52) {
-                console.log('test');
+                for (i = 1; i < 53; i++) {
+                    eval(`b${i}`).style.animation = ``;
+                    eval(`b${i}`).style.zIndex = `-1`;
+                }
+                score += 15;
             }
             if (score === 1) {
                 resetBalloons();
@@ -174,7 +178,7 @@ balloonGenerator = (ascent, color, size, speed, zIndex, specialChance) => {
         color = `rgb(255, 255, 235)`;
         watermellon.style.opacity = `1`;
     }
-    if (specialChance === 2) {
+    if ((specialChance === 2) || (specialChance === 3) || (specialChance === 4)) {
         speed = 3;
         balloonNumber = b52;
         size = 50;
@@ -212,8 +216,7 @@ balloonGenerator = (ascent, color, size, speed, zIndex, specialChance) => {
     if (balloonCount > 50) { //...but reset after it hits 50.
         balloonCount = 1;
     }
-
-    if ((specialChance === 1) || (specialChance === 2)) {
+    if ((specialChance === 1) || (specialChance === 2) || (specialChance === 3) || (specialChance === 4)) {
         timer = 3000;
     }
 
