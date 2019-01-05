@@ -168,14 +168,14 @@ balloonGenerator = (ascent, color, size, speed, zIndex, specialChance) => {
     let balloonNumber = eval(`b${balloonCount}`); //Use eval to convert the template string to the desired element as delineated in the const definitions.
 
     if (specialChance === 1) {
-        speed = 3;
+        speed = 1.5;
         balloonNumber = b51;
         size = 50;
         color = `rgb(255, 255, 235)`;
         watermellon.style.opacity = `1`;
     }
     if (specialChance === 2) {
-        speed = 3;
+        speed = 1.5;
         balloonNumber = b52;
         size = 50;
         color = `rgb(255, 255, 235)`;
@@ -214,7 +214,7 @@ balloonGenerator = (ascent, color, size, speed, zIndex, specialChance) => {
     }
 
     if ((specialChance === 1) || (specialChance === 2)) {
-        timer = 3000;
+        timer = 1500;
     }
 
     balloonGenerator(ascent, color, size, speed, zIndex, specialChance);
