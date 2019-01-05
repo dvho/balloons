@@ -58,6 +58,26 @@
     border-radius: 50% 50% 0 50%;
     opacity: .85;
 }
+#watermellonBalloon {
+    font-size: 65px;
+    text-align: center;
+}
+#watermellon {
+    position: relative;
+    top: 9px;
+    left: 4px;
+    opacity: 0;
+}
+#snowflakeBalloon {
+    font-size: 65px;
+    text-align: center;
+}
+#snowflake {
+    position: relative;
+    top: 12px;
+    left: 1px;
+    opacity: 0;
+}
 @keyframes ascend1 {
     0% {transform: rotateZ(45deg) translateX(0px) translateY(0px);}
     100% {transform: rotateZ(45deg) translateX(-2000px) translateY(-2000px);}

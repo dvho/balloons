@@ -56,7 +56,10 @@ const b47 = document.getElementById('balloon__47');
 const b48 = document.getElementById('balloon__48');
 const b49 = document.getElementById('balloon__49');
 const b50 = document.getElementById('balloon__50');
-
+const b51 = document.getElementById('watermellonBalloon');
+const b52 = document.getElementById('snowflakeBalloon');
+const watermellon = document.getElementById('watermellon');
+const snowflake = document.getElementById('snowflake');
 
 
 //UPDATE THE DISPLAY OF SCORE AND LIFE VALUE
@@ -82,7 +85,7 @@ updateScoreAndLife = () => {
 
 //START THE GAME ON THE FIRST POP BY RESETTING ALL BALLOON ANIMATIONS AND RECESSING THEIR ZINDEXES
 resetBalloons = () => {
-    for (i = 1; i < 51; i++) {
+    for (i = 1; i < 53; i++) {
         let balloonNumber = eval(`b${i}`);
         balloonNumber.style.animation = ``; //Terminate balloon animation.
         balloonNumber.style.zIndex = `-1`; //Recess the (now phantom) balloons because they seem occasionally to conflict with existing balloons.
@@ -113,7 +116,7 @@ resetBalloons = () => {
         }
     });
 
-    for (i = 1; i < 51; i++) {
+    for (i = 1; i < 53; i++) {
         let balloonNumber = eval(`b${i}`);
         balloonNumber.addEventListener(`animationend`, () => {  //Add event listeners to all 50 balloons for animationend.
             if (score !== 0) { //If the animationend event fires (i.e. if the balloon escapes without popping) you lose a life.
@@ -160,9 +163,24 @@ resetBalloons = () => {
 
 
 //BALLOON GENERATOR
-balloonGenerator = (ascent, color, size, speed, zIndex) => {
+balloonGenerator = (ascent, color, size, speed, zIndex, specialChance) => {
 
     let balloonNumber = eval(`b${balloonCount}`); //Use eval to convert the template string to the desired element as delineated in the const definitions.
+
+    if (specialChance === 1) {
+        speed = 3;
+        balloonNumber = b51;
+        size = 50;
+        color = `rgb(255, 255, 235)`;
+        watermellon.style.opacity = `1`;
+    }
+    if (specialChance === 2) {
+        speed = 3;
+        balloonNumber = b52;
+        size = 50;
+        color = `rgb(255, 255, 235)`;
+        snowflake.style.opacity = `1`;
+    }
 
     balloonNumber.style.background = `radial-gradient(circle at ${size/1.4}px ${size}px, #efefff, ${color})`;
     balloonNumber.style.backgroundColor = `${color}`;
@@ -179,6 +197,8 @@ balloonGenerator = (ascent, color, size, speed, zIndex) => {
 //AMONG THE PARAMETERS THAT DICTATE EACH BALLON: ASCENT, COLOR, SIZE, SPEED, ZINDEX, AND INTERIM (TIMER) THERE ARE 1.51 x 10^44 POSSIBILITIES
 (control = () => {
 
+    let specialChance = Math.ceil(Math.random() * 50);
+
     let timer = Math.random() * (1000 - globalCount); //Control will self invoke and send new parameters to balloonGenerator at intervals ranging from 0s inclusive to 1s (the timer coefficient) not inclusive, at 1^-17 granularity (10,000,000,000,000,000 possibilities), and narrow average rate of self invocation with each successful balloon pop by subracting 1ms from timer coefficient.
     let ascent = Math.ceil(Math.random() * 41); //Balloons will randomly launch from any of 41 different positions.
     let color = `rgb(${Math.ceil(Math.random() * 255)}, ${Math.ceil(Math.random() * 255)}, ${Math.ceil(Math.random() * 255)})` //Balloons will be any of 16,777,216 different colors.
@@ -193,7 +213,11 @@ balloonGenerator = (ascent, color, size, speed, zIndex) => {
         balloonCount = 1;
     }
 
-    balloonGenerator(ascent, color, size, speed, zIndex);
+    if ((specialChance === 1) || (specialChance === 2)) {
+        timer = 3000;
+    }
+
+    balloonGenerator(ascent, color, size, speed, zIndex, specialChance);
     setTimeout(control, timer);
 
 })();
