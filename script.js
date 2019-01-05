@@ -2,7 +2,7 @@ let balloonCount = 0; //balloonCount is initialized at 0.
 let globalCount = -1; //globalCount is initialized at -1, on first balloon pop it updates to 0.
 let score = 0; //score is initialized at 0.
 let life = 3; //life is initialized at 0.
-let lifeString = `_________<br>🍉🍉🍉<br>`;
+let lifeString;
 const theSky = document.getElementById('sky');
 const yourScore = document.getElementById('scoreboard');
 const pop = document.getElementById('burst');
@@ -64,24 +64,18 @@ const snowflake = document.getElementById('snowflakeEmoji');
 
 //UPDATE THE DISPLAY OF SCORE AND LIFE VALUE
 updateScoreAndLife = () => {
-    if (life === 3) {
-        lifeString = `_________<br>🍉🍉🍉<br>`;
-        yourScore.innerHTML = `${lifeString}${score}`; //Display score.
+    let lifeString = ``;
+
+    for (i = 0; i < life; i++) {
+        lifeString += `🍉`;
     }
-    if (life === 2) {
-        lifeString = `______<br>🍉🍉<br>`;
-        yourScore.innerHTML = `${lifeString}${score}`; //Display score.
-    }
-    if (life === 1) {
-        lifeString = `___<br>🍉<br>`;
-        yourScore.innerHTML = `${lifeString}${score}`; //Display score.
-    }
-    if (life === 0) {
+    yourScore.innerHTML = `${lifeString}<br>${score}`; //Display score.
+
+    if (life <= 0) {
         lifeString = `Game Over<br>Score: `;
         yourScore.innerHTML = `${lifeString}${score}`; //Display score.
     }
 }
-
 
 //START THE GAME ON THE FIRST POP BY RESETTING ALL BALLOON ANIMATIONS AND RECESSING THEIR ZINDEXES
 resetBalloons = () => {
@@ -92,7 +86,7 @@ resetBalloons = () => {
     };
 }
 
-//FIRE UP EVENT LISTENERS ON CLICK AND MOUSEMOVE TO CALLBACK COORDINATES, ON CLICK DYNAMICALLY FOR ALL 50 OF THE BALLOONS, AND ON THE SKY
+//FIRE UP EVENT LISTENERS ON CLICK AND MOUSEMOVE TO CALLBACK COORDINATES, ON CLICK DYNAMICALLY FOR ALL 52 OF THE BALLOONS, AND ON THE SKY
 (() => {
 
     let explosionSwitcher = 1;
@@ -119,7 +113,7 @@ resetBalloons = () => {
     for (i = 1; i < 53; i++) {
         let balloonNumber = eval(`b${i}`);
         balloonNumber.addEventListener(`animationend`, () => {  //Add event listeners to all 50 balloons for animationend.
-            if (score !== 0) { //If the animationend event fires (i.e. if the balloon escapes without popping) you lose a life.
+            if ((score !== 0) && (balloonNumber !== b51) && (balloonNumber !== b52)) { //If the animationend event fires (i.e. if the balloon escapes without popping) you lose a life.
                 life -= 1;
                 updateScoreAndLife();
             }
@@ -136,8 +130,14 @@ resetBalloons = () => {
                 life = 3;
                 lifeString = `_________<br>🍉🍉🍉<br>`;
             }
-            if (life !== 0) {
+            if ((life !== 0) && (balloonNumber !== b51) && (balloonNumber !== b52)) {
                 score += 1; //Increase the score.
+            }
+            if (balloonNumber === b51) {
+                life += 1;
+            }
+            if (balloonNumber === b52) {
+                console.log('test');
             }
             if (score === 1) {
                 resetBalloons();
@@ -168,14 +168,14 @@ balloonGenerator = (ascent, color, size, speed, zIndex, specialChance) => {
     let balloonNumber = eval(`b${balloonCount}`); //Use eval to convert the template string to the desired element as delineated in the const definitions.
 
     if (specialChance === 1) {
-        speed = 1.5;
+        speed = 3;
         balloonNumber = b51;
         size = 50;
         color = `rgb(255, 255, 235)`;
         watermellon.style.opacity = `1`;
     }
     if (specialChance === 2) {
-        speed = 1.5;
+        speed = 3;
         balloonNumber = b52;
         size = 50;
         color = `rgb(255, 255, 235)`;
@@ -214,7 +214,7 @@ balloonGenerator = (ascent, color, size, speed, zIndex, specialChance) => {
     }
 
     if ((specialChance === 1) || (specialChance === 2)) {
-        timer = 1500;
+        timer = 3000;
     }
 
     balloonGenerator(ascent, color, size, speed, zIndex, specialChance);
