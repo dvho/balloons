@@ -58,8 +58,8 @@ const b49 = document.getElementById('balloon__49');
 const b50 = document.getElementById('balloon__50');
 const b51 = document.getElementById('watermellonBalloon');
 const b52 = document.getElementById('snowflakeBalloon');
-const watermellon = document.getElementById('watermellon');
-const snowflake = document.getElementById('snowflake');
+const watermellon = document.getElementById('watermellonEmoji');
+const snowflake = document.getElementById('snowflakeEmoji');
 
 
 //UPDATE THE DISPLAY OF SCORE AND LIFE VALUE
