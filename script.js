@@ -3,6 +3,7 @@ let globalCount = -1; //globalCount is initialized at -1, on first balloon pop i
 let score = 0; //score is initialized at 0.
 let life = 3; //life is initialized at 0.
 let lifeString;
+let specialChance = 0;
 const theSky = document.getElementById('sky');
 const yourScore = document.getElementById('scoreboard');
 const pop = document.getElementById('burst');
@@ -172,14 +173,14 @@ balloonGenerator = (ascent, color, size, speed, zIndex, specialChance) => {
     let balloonNumber = eval(`b${balloonCount}`); //Use eval to convert the template string to the desired element as delineated in the const definitions.
 
     if (specialChance === 1) {
-        speed = 3;
+        speed = 5;
         balloonNumber = b51;
         size = 50;
         color = `rgb(255, 255, 235)`;
         watermellon.style.opacity = `1`;
     }
     if ((specialChance === 2) || (specialChance === 3) || (specialChance === 4)) {
-        speed = 3;
+        speed = 5;
         balloonNumber = b52;
         size = 50;
         color = `rgb(255, 255, 235)`;
@@ -197,13 +198,17 @@ balloonGenerator = (ascent, color, size, speed, zIndex, specialChance) => {
     balloonNumber.style.zIndex = `${zIndex}`;
 }
 
+(chance = () => {
+    specialChance = Math.ceil(Math.random() * 20);
+    setTimeout(chance, 5000);
+})();
 
 //AMONG THE PARAMETERS THAT DICTATE EACH BALLON: ASCENT, COLOR, SIZE, SPEED, ZINDEX, AND INTERIM (TIMER) THERE ARE 1.51 x 10^44 POSSIBILITIES
 (control = () => {
 
-    let specialChance = Math.ceil(Math.random() * 50);
 
-    let timer = Math.random() * (1000 - globalCount); //Control will self invoke and send new parameters to balloonGenerator at intervals ranging from 0s inclusive to 1s (the timer coefficient) not inclusive, at 1^-17 granularity (10,000,000,000,000,000 possibilities), and narrow average rate of self invocation with each successful balloon pop by subracting 1ms from timer coefficient.
+
+    let timer = Math.random() * (1200 - globalCount); //Control will self invoke and send new parameters to balloonGenerator at intervals ranging from 0s inclusive to 1s (the timer coefficient) not inclusive, at 1^-17 granularity (10,000,000,000,000,000 possibilities), and narrow average rate of self invocation with each successful balloon pop by subracting 1ms from timer coefficient.
     let ascent = Math.ceil(Math.random() * 41); //Balloons will randomly launch from any of 41 different positions.
     let color = `rgb(${Math.ceil(Math.random() * 255)}, ${Math.ceil(Math.random() * 255)}, ${Math.ceil(Math.random() * 255)})` //Balloons will be any of 16,777,216 different colors.
     let size = (Math.ceil(Math.random() * 150)) + 50; //Balloons will be between 51 inclusive and 200 inclusive pixels (indivisible) in diameter (150 possibilities).
@@ -216,11 +221,9 @@ balloonGenerator = (ascent, color, size, speed, zIndex, specialChance) => {
     if (balloonCount > 50) { //...but reset after it hits 50.
         balloonCount = 1;
     }
-    if ((specialChance === 1) || (specialChance === 2) || (specialChance === 3) || (specialChance === 4)) {
-        timer = 3000;
-    }
 
     balloonGenerator(ascent, color, size, speed, zIndex, specialChance);
+    specialChance = 0;
     setTimeout(control, timer);
 
 })();
