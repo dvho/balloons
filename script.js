@@ -103,15 +103,18 @@ resetBalloons = () => {
         y = e.clientY;
     });
 
-    theSky.addEventListener(`click`, (e) => {
-        e.preventDefault();
-        if ((score > 6) && (life > 0)) {
-            thunderSwitcher = (thunderSwitcher + 1) % 2; //Alternate between 0 and 1 to switch between two identical animations.
-            theSky.style.animation = `thunder${thunderSwitcher} .3s ease`;
-            score -= 5;
-            updateScoreAndLife();
-        }
-    });
+    addSkyEventListeners = (e) => {
+            e.preventDefault();
+            if ((score > 6) && (life > 0)) {
+                thunderSwitcher = (thunderSwitcher + 1) % 2; //Alternate between 0 and 1 to switch between two identical animations.
+                theSky.style.animation = `thunder${thunderSwitcher} .3s ease`;
+                score -= 5;
+                updateScoreAndLife();
+            }
+    }
+
+    theSky.addEventListener(`mousedown`, addSkyEventListeners);
+    theSky.addEventListener(`touchstart`, addSkyEventListeners);
 
     for (i = 1; i < 53; i++) {
         let balloonNumber = eval(`b${i}`);
@@ -121,49 +124,55 @@ resetBalloons = () => {
                 updateScoreAndLife();
             }
         });
-        balloonNumber.addEventListener(`click`, (e) => { //Add event listeners to all 50 balloons for click.
-            e.stopPropagation();
-            globalCount += 1; //Everytime you pop a balloon the globalCount is updated, which is subracted from the timer coefficient, which is initialized at -1.
-            let balloonDiameter = parseInt(balloonNumber.style.width.split(`p`)[0]); //Get the balloon's diameter.
-            explosionSwitcher = (explosionSwitcher + 1) % 2; //Alternate between 0 and 1 to switch between two identical animations.
-            if (life <= 0) { //If game just ended, the next balloon pop should reset globalCount, balloonCount, score, life, and lifeString, thereby restarting the game.
-                globalCount = -1;
-                balloonCount = 0;
-                score = 0;
-                life = 3;
-            }
-            if ((life > 0) && (balloonNumber !== b51) && (balloonNumber !== b52)) {
-                score += 1; //Increase the score.
-            }
-            if ((balloonNumber === b51) && (life > 0)) {
-                life += 1;
-            }
-            if ((balloonNumber === b52) && (life > 0)) {
-                for (i = 1; i < 53; i++) {
-                    eval(`b${i}`).style.animation = ``;
-                    eval(`b${i}`).style.zIndex = `-1`;
+
+        addBalloonEventListers = (e) => {
+                e.stopPropagation();
+                globalCount += 1; //Everytime you pop a balloon the globalCount is updated, which is subracted from the timer coefficient, which is initialized at -1.
+                let balloonDiameter = parseInt(balloonNumber.style.width.split(`p`)[0]); //Get the balloon's diameter.
+                explosionSwitcher = (explosionSwitcher + 1) % 2; //Alternate between 0 and 1 to switch between two identical animations.
+                if (life <= 0) { //If game just ended, the next balloon pop should reset globalCount, balloonCount, score, life, and lifeString, thereby restarting the game.
+                    globalCount = -1;
+                    balloonCount = 0;
+                    score = 0;
+                    life = 3;
                 }
-                score += 15;
+                if ((life > 0) && (balloonNumber !== b51) && (balloonNumber !== b52)) {
+                    score += 1; //Increase the score.
+                }
+                if ((balloonNumber === b51) && (life > 0)) {
+                    life += 1;
+                }
+                if ((balloonNumber === b52) && (life > 0)) {
+                    for (i = 1; i < 53; i++) {
+                        eval(`b${i}`).style.animation = ``;
+                        eval(`b${i}`).style.zIndex = `-1`;
+                    }
+                    score += 15;
+                }
+                if (score === 1) {
+                    resetBalloons();
+                }
+                updateScoreAndLife();
+                pop.style.left = `${x - balloonDiameter/2}px`; //Position the explosion.
+                pop.style.top = `${y - balloonDiameter/2}px`; //Position the explosion.
+                pop.style.zIndex = balloonNumber.style.zIndex; //Set the zIndex of the explosion to that of the balloon.
+                pop.style.width = balloonNumber.style.width; //Set the dimentions of the explosion.
+                pop.style.height = balloonNumber.style.height; //Set the dimentions of the explosion.
+                pop.style.boxShadow = `0 0 ${balloonNumber.style.width} ${balloonNumber.style.height} ${balloonNumber.style.backgroundColor}, inset 0 0 ${balloonNumber.style.width} ${balloonNumber.style.height} ${balloonNumber.style.backgroundColor}`; //Final explosion position looks like this, note that a) balloon width and height are the same so I didn't necessarily need to refeerence both here, either one or the other would have worked, and b) those values (that value) being used in place of both blur and spread radii is not a mistake, it just so happens that the value dynamically works perfectly for blur and spread.
+                pop.style.animation = `explosion${explosionSwitcher} ${balloonDiameter * .00035}s linear`; //Explode for a duration commensurate with balloon diameter.
+                setTimeout(()=> {
+                    balloonNumber.style.animation = ``; //Terminate balloon animation.
+                    balloonNumber.style.zIndex = `-1`; //After the explosion recess the (now phantom) balloons because they seem occasionally to conflict with existing balloons.
+                    //pop.style.animation = ``; //Terminate explosion animation (precautionary).
+                    pop.style.zIndex = `-1`; //After the explosion recess the (now phantom) explosions because they seem occasionally to conflict with existing balloons.
+                    //pop.style.boxShadow = ``; //Make the shadow (i.e. the explosion) nonexistent since it will otherwise occasionally reappear on mobile Safari.
+                }, balloonDiameter * .35);
             }
-            if (score === 1) {
-                resetBalloons();
-            }
-            updateScoreAndLife();
-            pop.style.left = `${x - balloonDiameter/2}px`; //Position the explosion.
-            pop.style.top = `${y - balloonDiameter/2}px`; //Position the explosion.
-            pop.style.zIndex = balloonNumber.style.zIndex; //Set the zIndex of the explosion to that of the balloon.
-            pop.style.width = balloonNumber.style.width; //Set the dimentions of the explosion.
-            pop.style.height = balloonNumber.style.height; //Set the dimentions of the explosion.
-            pop.style.boxShadow = `0 0 ${balloonNumber.style.width} ${balloonNumber.style.height} ${balloonNumber.style.backgroundColor}, inset 0 0 ${balloonNumber.style.width} ${balloonNumber.style.height} ${balloonNumber.style.backgroundColor}`; //Final explosion position looks like this, note that a) balloon width and height are the same so I didn't necessarily need to refeerence both here, either one or the other would have worked, and b) those values (that value) being used in place of both blur and spread radii is not a mistake, it just so happens that the value dynamically works perfectly for blur and spread.
-            pop.style.animation = `explosion${explosionSwitcher} ${balloonDiameter * .00035}s linear`; //Explode for a duration commensurate with balloon diameter.
-            setTimeout(()=> {
-                balloonNumber.style.animation = ``; //Terminate balloon animation.
-                balloonNumber.style.zIndex = `-1`; //After the explosion recess the (now phantom) balloons because they seem occasionally to conflict with existing balloons.
-                //pop.style.animation = ``; //Terminate explosion animation (precautionary).
-                pop.style.zIndex = `-1`; //After the explosion recess the (now phantom) explosions because they seem occasionally to conflict with existing balloons.
-                //pop.style.boxShadow = ``; //Make the shadow (i.e. the explosion) nonexistent since it will otherwise occasionally reappear on mobile Safari.
-            }, balloonDiameter * .35);
-        });
+
+
+
+        balloonNumber.addEventListener(`mousedown`, addBalloonEventListers);
+        balloonNumber.addEventListener(`touchstart`, addBalloonEventListers);
     }
 })();
 
