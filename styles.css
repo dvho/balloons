@@ -265,6 +265,25 @@
     100% {opacity: 0;}
 }
 
+@keyframes explosionBig0 {
+    0% {transform: scale(.001);
+        opacity: 0;
+        box-shadow: 0 0 1200px 1200px #2577ec, inset 0 0 1200px 1200px #2577ec;}
+    50% {transform: scale(.7);
+        box-shadow: 0 0 1200px 1200px transparent, inset 0 0 1200px 1200px transparent;
+         opacity: 1;}
+    100% {opacity: 0;}
+}
+@keyframes explosionBig1 {
+    0% {transform: scale(.001);
+        opacity: 0;
+        box-shadow: 0 0 1200px 1200px #2577ec, inset 0 0 1200px 1200px #2577ec;}
+    50% {transform: scale(.7);
+        box-shadow: 0 0 1200px 1200px transparent, inset 0 0 1200px 1200px transparent;
+         opacity: 1;}
+    100% {opacity: 0;}
+}
+
 #scoreboard {
     margin-top: 1%;
     overflow: hidden;
