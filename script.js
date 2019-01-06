@@ -94,7 +94,7 @@ resetBalloons = () => {
 
     let explosionSwitcher = 1;
     let thunderSwitcher = 1;
-    document.addEventListener(`touchstart`, (e) => { //Looping through mousemove and click to add event listeners to document to get coordinates is giving undefined values for x and y, so have to add them individually.
+    document.addEventListener(`click`, (e) => { //Looping through mousemove and click to add event listeners to document to get coordinates is giving undefined values for x and y, so have to add them individually.
         x = e.clientX;
         y = e.clientY;
     });
@@ -113,8 +113,8 @@ resetBalloons = () => {
             }
     }
 
-    theSky.addEventListener(`mousedown`, addSkyEventListeners);
-    theSky.addEventListener(`touchstart`, addSkyEventListeners);
+    theSky.addEventListener(`click`, addSkyEventListeners);
+
 
     for (i = 1; i < 53; i++) {
         let balloonNumber = eval(`b${i}`);
@@ -171,8 +171,8 @@ resetBalloons = () => {
 
 
 
-        balloonNumber.addEventListener(`mousedown`, addBalloonEventListers);
-        balloonNumber.addEventListener(`touchstart`, addBalloonEventListers);
+        balloonNumber.addEventListener(`click`, addBalloonEventListers);
+
     }
 })();
 
