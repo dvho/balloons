@@ -5,6 +5,9 @@ let life = 3; //life is initialized at 3.
 let lifeString;
 let specialChance = 0;
 const theSky = document.getElementById('sky');
+const subSkyOverlay = document.getElementById('sub-sky-overlay');
+const subSkySkull = document.getElementById('sub-sky-skull');
+const subSkySnowflake = document.getElementById('sub-sky-snowflake');
 const yourScore = document.getElementById('scoreboard');
 const pop = document.getElementById('burst');
 const b1 = document.getElementById('balloon__01');
@@ -108,9 +111,12 @@ resetBalloons = () => {
             e.preventDefault();
             if ((score > 6) && (life > 0)) {
                 thunderSwitcher = (thunderSwitcher + 1) % 2; //Alternate between 0 and 1 to switch between two identical animations.
+                subSkySkull.style.zIndex = -2;
+                subSkyOverlay.style.opacity = .9;
                 theSky.style.animation = `thunder${thunderSwitcher} .3s ease`;
                 score -= 5;
                 updateScoreAndLife();
+                setTimeout(() => {subSkySkull.style.zIndex = -9;}, 300);
             }
     }
 
@@ -164,7 +170,12 @@ resetBalloons = () => {
                     pop.style.top = `${y - balloonDiameter/2}px`; //Position the explosion.
                     pop.style.width = balloonNumber.style.width; //Set the dimentions of the explosion.
                     pop.style.height = balloonNumber.style.height; //Set the dimentions of the explosion.
-                    pop.style.boxShadow = `0 0 ${balloonNumber.style.width} ${balloonNumber.style.height} ${balloonNumber.style.backgroundColor}, inset 0 0 ${balloonNumber.style.width} ${balloonNumber.style.height} ${balloonNumber.style.backgroundColor}`; //Final explosion position looks like this, note that a) balloon width and height are the same so I didn't necessarily need to refeerence both here, either one or the other would have worked, and b) those values (that value) being used in place of both blur and spread radii is not a mistake, it just so happens that the value dynamically works perfectly for blur and spread.
+                    if (balloonNumber === b51) {
+                    pop.style.boxShadow = `0 0 ${balloonNumber.style.width} ${balloonNumber.style.height} #ff0000, inset 0 0 ${balloonNumber.style.width} ${balloonNumber.style.height} #ff0000`;
+                    }
+                    if (balloonNumber !== b51) {
+                        pop.style.boxShadow = `0 0 ${balloonNumber.style.width} ${balloonNumber.style.height} ${balloonNumber.style.backgroundColor}, inset 0 0 ${balloonNumber.style.width} ${balloonNumber.style.height} ${balloonNumber.style.backgroundColor}`; //Final explosion position looks like this, note that a) balloon width and height are the same so I didn't necessarily need to refeerence both here, either one or the other would have worked, and b) those values (that value) being used in place of both blur and spread radii is not a mistake, it just so happens that the value dynamically works perfectly for blur and spread.
+                    }
                     pop.style.animation = `explosion${explosionSwitcher} ${balloonDiameter * .00035}s linear`; //Explode for a duration commensurate with balloon diameter.
                     setTimeout(()=> {
                         balloonNumber.style.animation = ``; //Terminate balloon animation.
@@ -174,11 +185,17 @@ resetBalloons = () => {
                         //pop.style.boxShadow = ``; //Make the shadow (i.e. the explosion) nonexistent since it will otherwise occasionally reappear on mobile Safari.
                     }, balloonDiameter * .35);
                 } else {
+                    thunderSwitcher = (thunderSwitcher + 1) % 2; //Alternate between 0 and 1 to switch between two identical animations.
+                    subSkySnowflake.style.zIndex = -2;
+                    subSkyOverlay.style.opacity = .5;
+                    theSky.style.animation = `thunder${thunderSwitcher} .3s ease`;
+                    updateScoreAndLife();
+                    setTimeout(() => {subSkySnowflake.style.zIndex = -9;}, 300);
                     pop.style.left = `${x - 600}px`; //Position the explosion.
                     pop.style.top = `${y - 600}px`; //Position the explosion.
                     pop.style.width = `1200px`;
                     pop.style.height = `1200px`;
-                    pop.style.animation = `explosionBig${explosionBigSwitcher} 8s cubic-bezier(0,1,0,1)`; //Explode for a duration commensurate with balloon diameter.
+                    pop.style.animation = `explosionBig${explosionBigSwitcher} 8s cubic-bezier(0,1,1,1)`; //Explode for a duration commensurate with balloon diameter.
                     setTimeout(()=> {
                         balloonNumber.style.animation = ``; //Terminate balloon animation.
                         balloonNumber.style.zIndex = `-1`; //After the explosion recess the (now phantom) balloons because they seem occasionally to conflict with existing balloons.
@@ -207,7 +224,7 @@ balloonGenerator = (ascent, color, size, speed, zIndex, specialChance) => {
         color = `rgb(255, 255, 215)`;
         watermellon.style.opacity = `1`;
     }
-    if ((globalCount > -1) && ((specialChance === 2) || (specialChance === 3) || (specialChance === 4))) {
+    if ((globalCount > -1) && ((specialChance === 2) || (specialChance === 3) || (specialChance === 4) || (specialChance === 5))) {
         speed = 5;
         balloonNumber = b52;
         size = 50;

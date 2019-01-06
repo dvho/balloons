@@ -1,14 +1,28 @@
-#sub-sky {
+#sub-sky-skull {
     position: fixed;
     height: 100%;
     width: 100%;
     background-color: #000;
     overflow: hidden;
     text-align: center;
+    padding-top: 3%;
     font-size: 64em;
     font-family: inherit;
     text-shadow: 0px 0px 2em rgba(255, 255, 255, 1), 0px 0px 2em rgba(255, 255, 255, 1), 0px 0px 2em rgba(255, 255, 255, 1);
-    z-index: -2;
+    z-index: -10;
+}
+#sub-sky-snowflake {
+    position: fixed;
+    height: 100%;
+    width: 100%;
+    background-color: #0000ff;
+    overflow: hidden;
+    text-align: center;
+    padding-top: 3%;
+    font-size: 64em;
+    font-family: inherit;
+    text-shadow: 0px 0px 2em rgba(255, 255, 255, 1), 0px 0px 2em rgba(255, 255, 255, 1), 0px 0px 2em rgba(255, 255, 255, 1);
+    z-index: -11;
 }
 #sub-sky-overlay {
     position: fixed;
@@ -17,7 +31,7 @@
     background-color: #000;
     overflow: hidden;
     z-index: -1;
-    opacity: .9;
+    opacity: .75;
 }
 #sky {
     position: fixed;
@@ -268,7 +282,7 @@
 @keyframes explosionBig0 {
     0% {transform: scale(.001);
         opacity: 0;
-        box-shadow: 0 0 1200px 1200px #2577ec, inset 0 0 1200px 1200px #2577ec;}
+        box-shadow: 0 0 1200px 1200px #ff0000, inset 0 0 1200px 1200px #ff0000;}
     50% {transform: scale(.7);
         box-shadow: 0 0 1200px 1200px transparent, inset 0 0 1200px 1200px transparent;
          opacity: 1;}
@@ -277,7 +291,7 @@
 @keyframes explosionBig1 {
     0% {transform: scale(.001);
         opacity: 0;
-        box-shadow: 0 0 1200px 1200px #2577ec, inset 0 0 1200px 1200px #2577ec;}
+        box-shadow: 0 0 1200px 1200px #ff0000, inset 0 0 1200px 1200px #ff0000;}
     50% {transform: scale(.7);
         box-shadow: 0 0 1200px 1200px transparent, inset 0 0 1200px 1200px transparent;
          opacity: 1;}
