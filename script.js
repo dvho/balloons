@@ -94,7 +94,7 @@ resetBalloons = () => {
 
     let explosionSwitcher = 1;
     let thunderSwitcher = 1;
-    document.addEventListener(`click`, (e) => { //Looping through mousemove and click to add event listeners to document to get coordinates is giving undefined values for x and y, so have to add them individually.
+    document.addEventListener(`touchstart`, (e) => { //Looping through mousemove and click to add event listeners to document to get coordinates is giving undefined values for x and y, so have to add them individually.
         x = e.clientX;
         y = e.clientY;
     });
