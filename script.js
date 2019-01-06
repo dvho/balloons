@@ -169,9 +169,14 @@ resetBalloons = () => {
                 }, balloonDiameter * .35);
             }
 
-
-
-        balloonNumber.addEventListener(`click`, addBalloonEventListers);
+            [`mousedown`, `touchstart`].forEach(() => {
+                if (e = `mousedown`) {
+                    balloonNumber.addEventListener(`mousedown`, addBalloonEventListers);
+                }
+                if (e = `touchstart`) {
+                    balloonNumber.addEventListener(`touchstart`, addBalloonEventListers);
+                }
+            });
 
     }
 })();
