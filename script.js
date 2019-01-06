@@ -1,7 +1,7 @@
 let balloonCount = 0; //balloonCount is initialized at 0.
 let globalCount = -1; //globalCount is initialized at -1, on first balloon pop it updates to 0.
 let score = 0; //score is initialized at 0.
-let life = 3; //life is initialized at 0.
+let life = 3; //life is initialized at 3.
 let lifeString;
 let specialChance = 0;
 const theSky = document.getElementById('sky');
@@ -87,6 +87,8 @@ resetBalloons = () => {
     };
 }
 
+
+
 //FIRE UP EVENT LISTENERS ON CLICK AND MOUSEMOVE TO CALLBACK COORDINATES, ON CLICK DYNAMICALLY FOR ALL 52 OF THE BALLOONS, AND ON THE SKY
 (() => {
 
@@ -103,7 +105,7 @@ resetBalloons = () => {
 
     theSky.addEventListener(`click`, (e) => {
         e.preventDefault();
-        if ((score > 6) && (lifeString !== `Game Over<br>Score: `)) {
+        if ((score > 6) && (life > 0)) {
             thunderSwitcher = (thunderSwitcher + 1) % 2; //Alternate between 0 and 1 to switch between two identical animations.
             theSky.style.animation = `thunder${thunderSwitcher} .3s ease`;
             score -= 5;
@@ -113,31 +115,30 @@ resetBalloons = () => {
 
     for (i = 1; i < 53; i++) {
         let balloonNumber = eval(`b${i}`);
-        balloonNumber.addEventListener(`animationend`, () => {  //Add event listeners to all 50 balloons for animationend.
-            if ((score !== 0) && (balloonNumber !== b51) && (balloonNumber !== b52)) { //If the animationend event fires (i.e. if the balloon escapes without popping) you lose a life.
+        balloonNumber.addEventListener(`animationend`, () => {  //Add event listeners to all 52 balloons for animationend.
+            if ((score !== 0) && (balloonNumber !== b51) && (balloonNumber !== b52)) { //If the animationend event fires on balloons 1 - 50 (i.e. if a non special balloon escapes without popping) you lose a life.
                 life -= 1;
                 updateScoreAndLife();
             }
         });
         balloonNumber.addEventListener(`click`, (e) => { //Add event listeners to all 50 balloons for click.
             e.stopPropagation();
-            globalCount += 1; //Everytime you pop a balloon the globalCount is updated, which is subracted from the timer coefficient, which is initialized at 0.
+            globalCount += 1; //Everytime you pop a balloon the globalCount is updated, which is subracted from the timer coefficient, which is initialized at -1.
             let balloonDiameter = parseInt(balloonNumber.style.width.split(`p`)[0]); //Get the balloon's diameter.
             explosionSwitcher = (explosionSwitcher + 1) % 2; //Alternate between 0 and 1 to switch between two identical animations.
-            if (lifeString === `Game Over<br>Score: `) { //If game just ended, the next balloon pop should reset globalCount, balloonCount, score, life, and lifeString, thereby restarting the game.
+            if (life <= 0) { //If game just ended, the next balloon pop should reset globalCount, balloonCount, score, life, and lifeString, thereby restarting the game.
                 globalCount = -1;
                 balloonCount = 0;
                 score = 0;
                 life = 3;
-                lifeString = `_________<br>🍉🍉🍉<br>`;
             }
-            if ((life !== 0) && (balloonNumber !== b51) && (balloonNumber !== b52)) {
+            if ((life > 0) && (balloonNumber !== b51) && (balloonNumber !== b52)) {
                 score += 1; //Increase the score.
             }
-            if (balloonNumber === b51) {
+            if ((balloonNumber === b51) && (life > 0)) {
                 life += 1;
             }
-            if (balloonNumber === b52) {
+            if ((balloonNumber === b52) && (life > 0)) {
                 for (i = 1; i < 53; i++) {
                     eval(`b${i}`).style.animation = ``;
                     eval(`b${i}`).style.zIndex = `-1`;
@@ -172,18 +173,18 @@ balloonGenerator = (ascent, color, size, speed, zIndex, specialChance) => {
 
     let balloonNumber = eval(`b${balloonCount}`); //Use eval to convert the template string to the desired element as delineated in the const definitions.
 
-    if (specialChance === 1) {
+    if ((specialChance === 1) && (globalCount > -1)) {
         speed = 5;
         balloonNumber = b51;
         size = 50;
-        color = `rgb(255, 255, 235)`;
+        color = `rgb(255, 255, 215)`;
         watermellon.style.opacity = `1`;
     }
-    if ((specialChance === 2) || (specialChance === 3) || (specialChance === 4)) {
+    if ((globalCount > -1) && ((specialChance === 2) || (specialChance === 3) || (specialChance === 4))) {
         speed = 5;
         balloonNumber = b52;
         size = 50;
-        color = `rgb(255, 255, 235)`;
+        color = `rgb(255, 255, 215)`;
         snowflake.style.opacity = `1`;
     }
 
@@ -205,7 +206,6 @@ balloonGenerator = (ascent, color, size, speed, zIndex, specialChance) => {
 
 //AMONG THE PARAMETERS THAT DICTATE EACH BALLON: ASCENT, COLOR, SIZE, SPEED, ZINDEX, AND INTERIM (TIMER) THERE ARE 1.51 x 10^44 POSSIBILITIES
 (control = () => {
-
 
 
     let timer = Math.random() * (1200 - globalCount); //Control will self invoke and send new parameters to balloonGenerator at intervals ranging from 0s inclusive to 1s (the timer coefficient) not inclusive, at 1^-17 granularity (10,000,000,000,000,000 possibilities), and narrow average rate of self invocation with each successful balloon pop by subracting 1ms from timer coefficient.
