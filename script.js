@@ -111,12 +111,12 @@ resetBalloons = () => {
             e.preventDefault();
             if ((score > 6) && (life > 0)) {
                 thunderSwitcher = (thunderSwitcher + 1) % 2; //Alternate between 0 and 1 to switch between two identical animations.
-                subSkySkull.style.zIndex = 4;
+                subSkySkull.style.zIndex = -2;
                 subSkyOverlay.style.opacity = .9;
                 theSky.style.animation = `thunder${thunderSwitcher} .3s ease`;
                 score -= 5;
                 updateScoreAndLife();
-                setTimeout(() => {subSkySkull.style.zIndex = 2;}, 300);
+                setTimeout(() => {subSkySkull.style.zIndex = -9;}, 300);
             }
     }
 
@@ -186,7 +186,7 @@ resetBalloons = () => {
                     }, balloonDiameter * .35);
                 } else {
                     thunderSwitcher = (thunderSwitcher + 1) % 2; //Alternate between 0 and 1 to switch between two identical animations.
-                    subSkySnowflake.style.zIndex = 4;
+                    subSkySnowflake.style.zIndex = -2;
                     subSkyOverlay.style.opacity = .5;
                     theSky.style.animation = `thunder${thunderSwitcher} .3s ease`;
                     updateScoreAndLife();
@@ -257,7 +257,7 @@ balloonGenerator = (ascent, color, size, speed, zIndex, specialChance) => {
     let color = `rgb(${Math.ceil(Math.random() * 255)}, ${Math.ceil(Math.random() * 255)}, ${Math.ceil(Math.random() * 255)})` //Balloons will be any of 16,777,216 different colors.
     let size = (Math.ceil(Math.random() * 150)) + 50; //Balloons will be between 51 inclusive and 200 inclusive pixels (indivisible) in diameter (150 possibilities).
     let speed = (Math.random() * 6) + 7; //Balloon trajectory will take between 7 inculsive and 13 not inclusive seconds at 1^-16 granularity (6,000,000,000,000,000 possibilities).
-    let zIndex = (Math.ceil(Math.random() * 999) + 6); //Balloon zIndex will be between 1 inclusive and 999 inclusive (1000 possibilities).
+    let zIndex = Math.ceil(Math.random() * 999); //Balloon zIndex will be between 1 inclusive and 999 inclusive (1000 possibilities).
 
     if (balloonCount <= 50) { //Advance balloonCount by 1...
         balloonCount += 1;
@@ -269,6 +269,5 @@ balloonGenerator = (ascent, color, size, speed, zIndex, specialChance) => {
     balloonGenerator(ascent, color, size, speed, zIndex, specialChance);
     specialChance = 0;
     setTimeout(control, timer);
-    console.log(zIndex)
 
 })();

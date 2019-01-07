@@ -9,7 +9,7 @@
     font-size: 64em;
     font-family: inherit;
     text-shadow: 0px 0px 2em rgba(255, 255, 255, 1), 0px 0px 2em rgba(255, 255, 255, 1), 0px 0px 2em rgba(255, 255, 255, 1);
-    z-index: 2;
+    z-index: -10;
 }
 #sub-sky-snowflake {
     position: fixed;
@@ -22,15 +22,15 @@
     font-size: 64em;
     font-family: inherit;
     text-shadow: 0px 0px 2em rgba(255, 255, 255, 1), 0px 0px 2em rgba(255, 255, 255, 1), 0px 0px 2em rgba(255, 255, 255, 1);
-    z-index: 1;
+    z-index: -11;
 }
-#-sub-sky-overlay {
+#sub-sky-overlay {
     position: fixed;
     height: 100%;
     width: 100%;
     background-color: #000;
     overflow: hidden;
-    z-index: 5;
+    z-index: -1;
     opacity: .75;
 }
 #sky {
@@ -39,7 +39,7 @@
     width: 100%;
     background-color: #efefff;
     overflow: hidden;
-    z-index: 6;
+    z-index: 5;
 }
 @keyframes thunder0 {
     0% {opacity: 1}
