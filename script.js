@@ -65,7 +65,6 @@ const b52 = document.getElementById('snowflakeBalloon');
 const watermellon = document.getElementById('watermellonEmoji');
 const snowflake = document.getElementById('snowflakeEmoji');
 
-
 //UPDATE THE DISPLAY OF SCORE AND LIFE VALUE
 updateScoreAndLife = () => {
     let lifeString = ``;
