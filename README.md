@@ -16,7 +16,7 @@ _________________________
 _________________________
 
 #### Motivation
-Who doesn't like popping balloons? And if it earns you points while you feast on watermelon and blowup snowflake emblazoned nuclear powered balloons the itch to plunge into this aeriform and etherial world and play is ravenous.
+Who doesn't like popping balloons? And if it earns you points while you feast on watermelon and blowup snowflake emblazoned nuclear powered balloons the itch to plunge into this aeriform and etherial world and play insatiable.
 _________________________
 
 #### Notes
