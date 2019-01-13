@@ -1,5 +1,5 @@
 # Balloons
-An all original game I designed and coded entirely in HTML/CSS/JavaScript without the use of image files, frameworks/libraries or any dependencies.
+_Balloons_ is an all original game I designed and coded entirely in HTML/CSS/JavaScript without the use of image files, frameworks/libraries or any dependencies.
 
 <img src="https://user-images.githubusercontent.com/45696445/51090762-ff529180-174e-11e9-81f6-a9ac0f91e973.jpg">
 
@@ -20,7 +20,7 @@ Who doesn't like popping balloons? And if it earns you points while you feast on
 _________________________
 
 #### Notes
-This game is much more difficult when played using a trackpad vs a mouse or on a touchscreen device.
+This game is much more difficult when played using a trackpad vs. a mouse or touchscreen device. Zoom out to help increase vertical range.
 _________________________
 
 #### License
