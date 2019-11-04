@@ -1,5 +1,5 @@
 # Balloons
-_Balloons_ is an all original game I designed and coded entirely in HTML/CSS/JavaScript without the use of image files, frameworks/libraries or any dependencies.
+_Balloons_ is an all original game I designed entirely in CSS (no image files) and coded entirely in vanilla JavaScript (no frameworks/libraries).
 
 <img src="https://user-images.githubusercontent.com/45696445/51328677-eba27600-1a41-11e9-98d6-ee7a576e69b2.gif">
 
@@ -12,6 +12,7 @@ _________________________
 #### Features
 - All original game
 - Pure code (no image files)
+- Pure vanilla JavaScript
 - No frameworks/libraries
 _________________________
 
